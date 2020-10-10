@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using TreeEditor;
@@ -19,16 +20,31 @@ namespace Bubble_UI
         private Stack<string> _uiCurrentNames = new Stack<string>();
         //UI路径
         private const string UIPrefab_Path = "UIPrefabs";
+        
+        //UIRoot
+        private Transform _uiRoot;
         //canvas
         private Transform _canvasRoot;
+        //normal root
+        private Transform _normalRoot;
+        //fixed root
+        private Transform _fixedRoot;
+        //dialog root
+        private Transform _dialogRoot;
         
         //init
         public void Init()
         {
-            var canvas = Resources.Load<Transform>(UIPrefab_Path + "/" + "Canvas_UI");
-            _canvasRoot = Instantiate(canvas,transform);
-            _uiCamera = _canvasRoot.GetComponentInChildren<Camera>();
+            var uiObj = Resources.Load<Transform>(UIPrefab_Path + "/" + "UIRoot");
+            _uiRoot=Instantiate(uiObj,transform);
+            _canvasRoot = _uiRoot.GetChildrenComponentByNode<Transform>("Canvas_UI");
+            _uiCamera = _uiRoot.GetChildrenComponentByNode<Camera>("CameraUI");
+            
+            _normalRoot = _canvasRoot.GetChildrenComponentByNode<Transform>("Normal");
+            _fixedRoot = _canvasRoot.GetChildrenComponentByNode<Transform>("Fixed");
+            _dialogRoot = _canvasRoot.GetChildrenComponentByNode<Transform>("Dialog");
         }
+        
         //update
         public void DoUpdate(float dt)
         {
@@ -37,6 +53,7 @@ namespace Bubble_UI
                 uiBase.DoUpdate(dt);
             }
         }
+        
         //显示UI
         public void Show<T>(string UIname ,T content) where T : UI_BaseContent
         {
@@ -45,7 +62,7 @@ namespace Bubble_UI
             UI_Base uiBase;
             if (!_uiTempBases.ContainsKey(UIname))
             {
-                uiBase = LoadUIPrefab(UIname);
+                uiBase = LoadUiPrefab(UIname);
                 if (uiBase==null)
                 {
                     Debug.LogError("当前的UIName与预制名字是否对应,当前的UIName:" + UIname);
@@ -67,6 +84,18 @@ namespace Bubble_UI
             }
             _uiCurrentBases.Push(uiBase);
             _uiCurrentNames.Push(UIname);
+            //设置父物体
+            Transform parent = _normalRoot;
+            switch (uiBase.UiType)
+            {
+                case UIType.Fixed:
+                    parent = _fixedRoot;
+                    break;
+                case UIType.Dialog:
+                    parent = _dialogRoot;
+                    break;
+            }
+            uiBase.transform.parent = parent;
             uiBase.SetContent(content);
         }
 
@@ -88,6 +117,7 @@ namespace Bubble_UI
         }
 
         //隐藏全部
+        [Obsolete("this method is old ,please use new method HideView",false)]
         public void HideAll()
         {
             foreach (var uiBase in _uiCurrentBases)
@@ -98,11 +128,43 @@ namespace Bubble_UI
             _uiCurrentNames.Clear();
         }
 
-        //加载UI预制
-        private UI_Base LoadUIPrefab(string UIname) 
+        //隐藏
+        public void HideView(UIType uiType = UIType.None)
         {
-            var go = Resources.Load(UIPrefab_Path + "/" + UIname);
-            GameObject uiBase = GameObject.Instantiate(go, _canvasRoot) as GameObject;
+            Stack<UI_Base> temp = new Stack<UI_Base>();
+            Stack<string> tempNames = new Stack<string>();
+
+            int len = _uiCurrentNames.Count;
+            for (int i = 0; i < len; i++)
+            {
+                var ui = _uiCurrentBases.Pop();
+                var uiName = _uiCurrentNames.Pop();
+                if (uiType!=UIType.None&& ui.UiType!=uiType)
+                {
+                    temp.Push(ui);
+                    tempNames.Push(uiName);
+                }
+                else
+                {
+                    ui.Hide();
+                }
+            }
+
+            len = tempNames.Count;
+            for (int i = 0; i < len ; i++)
+            {
+                var ui = temp.Pop();
+                var uiName = tempNames.Pop();
+                _uiCurrentBases.Push(ui);
+                _uiCurrentNames.Push(uiName);
+            }
+        }
+
+        //加载UI预制
+        private UI_Base LoadUiPrefab(string uiName) 
+        {
+            var go = Resources.Load(UIPrefab_Path + "/" + uiName);
+            GameObject uiBase = GameObject.Instantiate(go,_canvasRoot) as GameObject;
             return uiBase.GetComponent<UI_Base>();
         }
     }

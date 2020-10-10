@@ -32,6 +32,11 @@ namespace Bubble_UI.Example01
             {
                 UI_Manager.Instance.Hide(UI_Name.UI_TEST_02);
             }
+
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                UI_Manager.Instance.HideView(UIType.Normal);
+            }
         }
     }
 }

@@ -4,26 +4,36 @@ using UnityEngine;
 
 namespace Bubble_UI
 {
+    public enum UIType
+    {
+        None,
+        Normal,//普通UI
+        Fixed,//固定UI
+        Dialog,//弹窗UI
+    }
+
     public abstract class UI_Base: MonoBehaviour
     {
 
-        private CanvasGroup canvasAlpha;
+        private CanvasGroup _canvasAlpha;
         //对UI的冻结和重启
-        private CanvasGroup _canvasAlpha
+        private CanvasGroup CanvasAlpha
         {
             get
             {
-                if (canvasAlpha==null)
+                if (_canvasAlpha==null)
                 {
-                    canvasAlpha = GetComponent<CanvasGroup>();
-                    if (canvasAlpha==null)
+                    _canvasAlpha = GetComponent<CanvasGroup>();
+                    if (_canvasAlpha==null)
                     {
-                        canvasAlpha = gameObject.AddComponent<CanvasGroup>();
+                        _canvasAlpha = gameObject.AddComponent<CanvasGroup>();
                     }
                 }
-                return canvasAlpha;
+                return _canvasAlpha;
             }
         }
+
+        public UIType UiType { get; set; }
 
         public virtual void Init()
         {
@@ -52,23 +62,23 @@ namespace Bubble_UI
         //冻结
         public virtual void Freeze()
         {
-            _canvasAlpha.blocksRaycasts = false;
+            CanvasAlpha.blocksRaycasts = false;
         }
         //重启
         public virtual void ReShow()
         {
-            _canvasAlpha.blocksRaycasts = true;
+            CanvasAlpha.blocksRaycasts = true;
             gameObject.SetActive(true);
         }
     }
 
     public abstract class UI_Base<T> :UI_Base where T : UI_BaseContent
     {
-        public T _uiBaseContent { get; set; }
+        protected T UiBaseContent { get; set; }
 
         public override void SetContent(UI_BaseContent content)
         {
-            _uiBaseContent = content as T;
+            UiBaseContent = content as T;
         }
     }
 

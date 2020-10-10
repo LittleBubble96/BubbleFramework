@@ -8,6 +8,12 @@ public class Test_02 : UI_Base<Test_02Content>
 {
     public Text _des;
 
+    public override void Init()
+    {
+        base.Init();
+        UiType = UIType.Fixed;
+    }
+
     public override void SetContent(UI_BaseContent content)
     {
         base.SetContent(content);
