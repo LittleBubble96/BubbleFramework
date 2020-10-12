@@ -1,4 +1,4 @@
-﻿namespace Bubble_UI
+﻿namespace BubbleFramework.Bubble_UI
 {
     public class UI_Name
     {

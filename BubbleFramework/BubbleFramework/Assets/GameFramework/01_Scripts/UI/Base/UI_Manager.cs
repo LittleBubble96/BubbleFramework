@@ -5,7 +5,7 @@ using System.Linq;
 using TreeEditor;
 using UnityEngine;
 
-namespace Bubble_UI
+namespace BubbleFramework.Bubble_UI
 {
     public class UI_Manager : Bubble_MonoSingle<UI_Manager>
     {

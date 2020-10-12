@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Bubble_UI
+namespace BubbleFramework.Bubble_UI
 {
     //UI帮助类
     public static class UIHelper

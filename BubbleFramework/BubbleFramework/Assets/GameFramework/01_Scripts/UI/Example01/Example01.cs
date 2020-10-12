@@ -1,12 +1,15 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using BubbleFramework.Bubble_Event;
 using UnityEngine;
+using EventType = BubbleFramework.Bubble_Event.EventType;
 
-namespace Bubble_UI.Example01
+namespace BubbleFramework.Bubble_UI.Example01
 {
     public class Example01 : MonoBehaviour
     {
         // Start is called before the first frame update
+        Dictionary<string,int> test=new Dictionary<string, int>();
         void Awake()
         {
             UI_Manager.Instance.Init();
@@ -36,6 +39,11 @@ namespace Bubble_UI.Example01
             if (Input.GetKeyDown(KeyCode.E))
             {
                 UI_Manager.Instance.HideView(UIType.Normal);
+            }
+
+            if (Input.GetKeyDown(KeyCode.F))
+            {
+                Reg.EventDispatcher.BroadcastListener(EventName.EVENT_TEST01,"广播第一次");
             }
         }
     }

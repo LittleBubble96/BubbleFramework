@@ -1,6 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using Bubble_UI;
+using BubbleFramework.Bubble_UI;
 using UnityEngine;
 using UnityEngine.UI;
 
