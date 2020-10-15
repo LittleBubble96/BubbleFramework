@@ -19,7 +19,7 @@ namespace BubbleFramework.Bubble_UI
             T script = tf.GetComponentByNode<T>(childName);
             if (script==null)
             {
-                BubDebug.Log("下面所有子物体没有找到对应的名字上有脚本 ，请核对子物体名字："+childName+" ,和这个组件："+typeof(T)+" 是否存在");
+                DDebug.Log("下面所有子物体没有找到对应的名字上有脚本 ，请核对子物体名字："+childName+" ,和这个组件："+typeof(T)+" 是否存在");
             }
             return script;
         }

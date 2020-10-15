@@ -35,7 +35,7 @@ namespace BubbleFramework.Pool
         public T TakeOutObject(T storageObject)
         {
             string type = typeof(T).Name;
-            BubDebug.Log("类型："+ type);
+            DDebug.Log("类型："+ type);
 
             T item;
             if (_objectPool.TryGetValue(type,out var elementQue) && elementQue.Count>0)

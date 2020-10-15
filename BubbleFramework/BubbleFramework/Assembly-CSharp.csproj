@@ -59,21 +59,35 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\GameFramework\01_Scripts\Attribute\Bubble_NameAttribute.cs" />
+     <Compile Include="Assets\GameFramework\01_Scripts\Data\CSVHelper.cs" />
+     <Compile Include="Assets\GameFramework\01_Scripts\Data\DataModelBase.cs" />
+     <Compile Include="Assets\GameFramework\01_Scripts\Data\DataModelTable.cs" />
+     <Compile Include="Assets\GameFramework\01_Scripts\Data\GameModelManager.cs" />
      <Compile Include="Assets\GameFramework\01_Scripts\Event\AppEventDispatcher.cs" />
      <Compile Include="Assets\GameFramework\01_Scripts\Event\EventName.cs" />
      <Compile Include="Assets\GameFramework\01_Scripts\Event\EventType.cs" />
-     <Compile Include="Assets\GameFramework\01_Scripts\Other\BubDebug.cs" />
+     <Compile Include="Assets\GameFramework\01_Scripts\Example\Example01\Example01.cs" />
+     <Compile Include="Assets\GameFramework\01_Scripts\Example\Example01\Test_01.cs" />
+     <Compile Include="Assets\GameFramework\01_Scripts\Example\Example01\Test_02.cs" />
+     <Compile Include="Assets\GameFramework\01_Scripts\Example\Example02_csv\Example02.cs" />
+     <Compile Include="Assets\GameFramework\01_Scripts\Example\Example02_csv\MonsterData.cs" />
+     <Compile Include="Assets\GameFramework\01_Scripts\Example\Example03_FSM\Example03.cs" />
+     <Compile Include="Assets\GameFramework\01_Scripts\FSM\BubState.cs" />
+     <Compile Include="Assets\GameFramework\01_Scripts\FSM\BubStateController.cs" />
+     <Compile Include="Assets\GameFramework\01_Scripts\FSM\BubTranslation.cs" />
+     <Compile Include="Assets\GameFramework\01_Scripts\FSM\interface\IState.cs" />
+     <Compile Include="Assets\GameFramework\01_Scripts\FSM\interface\IStateController.cs" />
+     <Compile Include="Assets\GameFramework\01_Scripts\FSM\interface\ITranslation.cs" />
+     <Compile Include="Assets\GameFramework\01_Scripts\ObjectPool\PoolManager.cs" />
+     <Compile Include="Assets\GameFramework\01_Scripts\ObjectPool\StorageObject.cs" />
      <Compile Include="Assets\GameFramework\01_Scripts\Other\Bubble_MonoSingle.cs" />
-     <Compile Include="Assets\GameFramework\01_Scripts\Other\ObjectPool\PoolManager.cs" />
-     <Compile Include="Assets\GameFramework\01_Scripts\Other\ObjectPool\StorageObject.cs" />
+     <Compile Include="Assets\GameFramework\01_Scripts\Other\DDebug.cs" />
+     <Compile Include="Assets\GameFramework\01_Scripts\Other\IIndexer.cs" />
      <Compile Include="Assets\GameFramework\01_Scripts\Other\Reg.cs" />
-     <Compile Include="Assets\GameFramework\01_Scripts\UI\Base\UIHelper.cs" />
      <Compile Include="Assets\GameFramework\01_Scripts\UI\Base\UI_Base.cs" />
-     <Compile Include="Assets\GameFramework\01_Scripts\UI\Base\UI_Manager.cs" />
-     <Compile Include="Assets\GameFramework\01_Scripts\UI\Base\UI_Name.cs" />
-     <Compile Include="Assets\GameFramework\01_Scripts\UI\Example01\Example01.cs" />
-     <Compile Include="Assets\GameFramework\01_Scripts\UI\Example01\Test_01.cs" />
-     <Compile Include="Assets\GameFramework\01_Scripts\UI\Example01\Test_02.cs" />
+     <Compile Include="Assets\GameFramework\01_Scripts\UI\UIHelper.cs" />
+     <Compile Include="Assets\GameFramework\01_Scripts\UI\UI_Manager.cs" />
+     <Compile Include="Assets\GameFramework\01_Scripts\UI\UI_Name.cs" />
  <Reference Include="Unity.Timeline.Editor">
  <HintPath>E:/GitHub/BubbleFramework/BubbleFramework/BubbleFramework/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
  </Reference>
