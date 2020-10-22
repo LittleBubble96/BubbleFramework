@@ -17,7 +17,7 @@ public class Test_01 : UI_Base<Test_01Content>
     {
         base.Init();
         UiType = UIType.Normal;
-        Reg.EventDispatcher.AddEventListener<EventType>(EventName.EVENT_TEST01,OnChangeDes);
+        BubbleFrameEntry.GetModel<AppEventDispatcher>().AddEventListener<EventType>(EventName.EVENT_TEST01,OnChangeDes);
     }
 
     private void OnChangeDes(EventType obj)
@@ -31,12 +31,11 @@ public class Test_01 : UI_Base<Test_01Content>
     {
         base.SetContent(content);
         _des.text = UiBaseContent.des;
-        
     }
 
     private void OnDestroy()
     {
-        Reg.EventDispatcher.RemoveEventListener<EventType>(EventName.EVENT_TEST01,OnChangeDes);
+        BubbleFrameEntry.GetModel<AppEventDispatcher>().RemoveEventListener<EventType>(EventName.EVENT_TEST01,OnChangeDes);
     }
 }
 

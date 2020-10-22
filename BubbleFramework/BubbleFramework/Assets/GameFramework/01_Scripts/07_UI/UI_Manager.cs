@@ -4,13 +4,18 @@ using System.Collections.Generic;
 using System.Linq;
 using TreeEditor;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace BubbleFramework.Bubble_UI
 {
-    public class UI_Manager : Bubble_MonoSingle<UI_Manager>
+    public class UI_Manager : BubbleFrameModel
     {
         //ui相机
         public Camera _uiCamera { get; set; }
+        //UIRoot
+        public Transform _uiRoot { get; set; }
+
+        internal override int Priority => 10;
 
         //当前显示的UI
         private Stack<UI_Base> _uiCurrentBases = new Stack<UI_Base>();
@@ -20,9 +25,6 @@ namespace BubbleFramework.Bubble_UI
         private Stack<string> _uiCurrentNames = new Stack<string>();
         //UI路径
         private const string UIPrefab_Path = "UIPrefabs";
-        
-        //UIRoot
-        private Transform _uiRoot;
         //canvas
         private Transform _canvasRoot;
         //normal root
@@ -33,10 +35,11 @@ namespace BubbleFramework.Bubble_UI
         private Transform _dialogRoot;
         
         //init
-        public void Init()
+        public UI_Manager()
         {
             var uiObj = Resources.Load<Transform>(UIPrefab_Path + "/" + "UIRoot");
-            _uiRoot=Instantiate(uiObj,transform);
+            _uiRoot= Object.Instantiate(uiObj,null);
+            Object.DontDestroyOnLoad(_uiRoot);
             _canvasRoot = _uiRoot.GetChildrenComponentByNode<Transform>("Canvas_UI");
             _uiCamera = _uiRoot.GetChildrenComponentByNode<Camera>("CameraUI");
             
@@ -46,7 +49,7 @@ namespace BubbleFramework.Bubble_UI
         }
         
         //update
-        public void DoUpdate(float dt)
+        internal override void DoUpdate(float dt)
         {
             foreach (var uiBase in _uiCurrentBases)
             {
@@ -99,7 +102,10 @@ namespace BubbleFramework.Bubble_UI
             uiBase.SetContent(content);
         }
 
-        //隐藏
+        /// <summary>
+        /// 隐藏UI 并重新激活上层UI
+        /// </summary>
+        /// <param name="UIname"></param>
         public void Hide(string UIname)
         {
             bool result = true;
@@ -113,6 +119,12 @@ namespace BubbleFramework.Bubble_UI
                 _uiTempBases[UIname].Hide();
                 _uiCurrentBases.Pop();
                 _uiCurrentNames.Pop();
+                //激活最上层UI
+                if (_uiCurrentBases.Count > 0)
+                {
+                    UI_Base uiBase = _uiCurrentBases.Peek();
+                    uiBase.ReShow();
+                }
             }
         }
 

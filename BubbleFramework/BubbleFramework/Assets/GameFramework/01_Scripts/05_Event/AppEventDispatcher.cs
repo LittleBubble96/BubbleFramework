@@ -5,8 +5,13 @@ using UnityEngine;
 
 namespace BubbleFramework.Bubble_Event
 {
-    public class AppEventDispatcher : IDisposable
+    public class AppEventDispatcher : BubbleFrameModel , IDisposable
     {
+        /// <summary>
+        /// 轮序为0 最先调用
+        /// </summary>
+        internal override int Priority => 0;
+
         //是都已经被释放
         private bool disposed;
 
@@ -23,6 +28,9 @@ namespace BubbleFramework.Bubble_Event
             Dispose(false);
         }
 
+        /// <summary>
+        /// 释放资源
+        /// </summary>
         public void Dispose()
         {
             Dispose(true);
@@ -46,7 +54,12 @@ namespace BubbleFramework.Bubble_Event
             disposed = true;
         }
 
-        //添加事件
+        /// <summary>
+        /// 添加事件 
+        /// </summary>
+        /// <param name="eventType">事件类型</param>
+        /// <param name="listener">事件</param>
+        /// <typeparam name="TEvent"></typeparam>
         public void AddEventListener<TEvent>(string eventType, Action<TEvent> listener) where TEvent : EventType
         {
             if (string.IsNullOrEmpty(eventType))
@@ -64,7 +77,12 @@ namespace BubbleFramework.Bubble_Event
             }
         }
         
-        //移除事件
+        /// <summary>
+        /// 移除事件
+        /// </summary>
+        /// <param name="eventType">事件类型</param>
+        /// <param name="listener">事件监听</param>
+        /// <typeparam name="TEvent"></typeparam>
         public void RemoveEventListener<TEvent>(string eventType,Action<TEvent> listener) where  TEvent :EventType
         {
             if (string.IsNullOrEmpty(eventType))
@@ -78,7 +96,11 @@ namespace BubbleFramework.Bubble_Event
             }
         }
         
-        //广播事件
+        /// <summary>
+        /// 广播事件
+        /// </summary>
+        /// <param name="evt">事件类型 </param>
+        /// <typeparam name="TEvent"></typeparam>
         private void BroadcastListener<TEvent>(TEvent evt) where TEvent : EventType
         {
             string type = evt.Type;
@@ -94,6 +116,10 @@ namespace BubbleFramework.Bubble_Event
             }
         }
 
+        /// <summary>
+        /// 广播事件 无参数
+        /// </summary>
+        /// <param name="eventType">事件类型</param>
         public void BroadcastListener(string eventType)
         {
             if (!string.IsNullOrEmpty(eventType)&&_listensDic.ContainsKey(eventType))
@@ -102,6 +128,12 @@ namespace BubbleFramework.Bubble_Event
             }
         }
 
+        /// <summary>
+        /// 广播事件 带一个参数
+        /// </summary>
+        /// <param name="eventType">事件类型</param>
+        /// <param name="value">第一个参数 </param>
+        /// <typeparam name="T"></typeparam>
         public void BroadcastListener<T>(string eventType, T value)
         {
             if (!string.IsNullOrEmpty(eventType)&&_listensDic.ContainsKey(eventType))
@@ -110,6 +142,13 @@ namespace BubbleFramework.Bubble_Event
             }
         }
         
+        /// <summary>
+        /// 广播事件 带俩个参数
+        /// </summary>
+        /// <param name="eventType">事件类型</param>
+        /// <param name="value">第一个参数 </param>
+        /// <param name="value1">第二个参数 </param>
+        /// <typeparam name="T"></typeparam>
         public void BroadcastListener<T,T1>(string eventType, T value,T1 value1)
         {
             if (!string.IsNullOrEmpty(eventType)&&_listensDic.ContainsKey(eventType))
@@ -118,6 +157,16 @@ namespace BubbleFramework.Bubble_Event
             }
         }
         
+        /// <summary>
+        /// 广播事件 带三个参数
+        /// </summary>
+        /// <param name="eventType">事件类型</param>
+        /// <param name="value">第一个参数</param>
+        /// <param name="value1">第二个参数</param>
+        /// <param name="value2">第三个参数</param>
+        /// <typeparam name="T"></typeparam>
+        /// <typeparam name="T1"></typeparam>
+        /// <typeparam name="T2"></typeparam>
         public void BroadcastListener<T,T1,T2>(string eventType, T value,T1 value1,T2 value2)
         {
             if (!string.IsNullOrEmpty(eventType)&&_listensDic.ContainsKey(eventType))

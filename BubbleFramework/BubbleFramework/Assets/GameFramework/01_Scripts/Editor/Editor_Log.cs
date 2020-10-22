@@ -22,7 +22,7 @@ public class Editor_Log
     //配置的日志
     private static LogEditorConfig[] _logEditorConfig = new LogEditorConfig[]
     {
-        new LogEditorConfig("Assets/GameFramework/01_Scripts/Other/DDebug.cs",typeof(DDebug))
+        new LogEditorConfig("Assets/GameFramework/01_Scripts/020_Other/DDebug.cs",typeof(DDebug))
     };
 
     //处理从ConsoleWindow双击跳转

@@ -1,13 +1,9 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Threading;
-using UnityEngine;
 using Object = UnityEngine.Object;
-
 namespace BubbleFramework.Pool
 {
-    public class PoolManager<T> : IDisposable where T :StorageObject
+    public class PoolManager : BubbleFrameModel , IDisposable 
     {
         //是否销毁
         private bool isDisposed;
@@ -25,14 +21,20 @@ namespace BubbleFramework.Pool
             Dispose(false);
         }
 
-        //单例
-        private static PoolManager<T> _instance;
-        public static PoolManager<T> Instance => _instance ?? (_instance = new PoolManager<T>());
+        /// <summary>
+        /// 轮序之
+        /// </summary>
+        internal override int Priority => 30;
 
         #region 接口
 
-        //获取元素
-        public T TakeOutObject(T storageObject)
+        /// <summary>
+        /// 获取对象池得元素 有得话 就激活 没有就实例化
+        /// </summary>
+        /// <param name="storageObject"> 传入得物体 </param>
+        /// <typeparam name="T"> </typeparam>
+        /// <returns></returns>
+        public T TakeOutObject<T>(T storageObject)  where T :StorageObject
         {
             string type = typeof(T).Name;
             DDebug.Log("类型："+ type);
@@ -40,17 +42,26 @@ namespace BubbleFramework.Pool
             T item;
             if (_objectPool.TryGetValue(type,out var elementQue) && elementQue.Count>0)
             {
-                item = elementQue.Dequeue().value;
+                item = elementQue.Dequeue().value as T;
             }
             else
             {
                 item = Object.Instantiate(storageObject);
             }
+
+            if (item!=null)
+            {
+                item.OnPoolEnable();
+            }
             return item;
         }
 
-        //存入物体
-        public void TakeInObject(T storageObject)
+        /// <summary>
+        /// 将物体存入对象池中
+        /// </summary>
+        /// <param name="storageObject">需要存入得物体</param>
+        /// <typeparam name="T"></typeparam>
+        public void TakeInObject<T>(T storageObject) where T : StorageObject
         {
             string type = typeof(T).Name;
 
@@ -59,20 +70,27 @@ namespace BubbleFramework.Pool
                _objectPool[type]=new Queue<Element>();
             }
             _objectPool[type].Enqueue(new Element(storageObject));
+            storageObject.OnPoolDisable();
         }
 
         #endregion
         
+        /// <summary>
+        /// 元素构造函数 减少GC
+        /// </summary>
         private struct Element
         {
-            internal T value;
+            internal StorageObject value;
 
-            public Element(T value)
+            public Element(StorageObject value)
             {
                 this.value = value;
             }
         }
 
+        /// <summary>
+        /// 释放GC
+        /// </summary>
         public void Dispose()
         {
             Dispose(true);

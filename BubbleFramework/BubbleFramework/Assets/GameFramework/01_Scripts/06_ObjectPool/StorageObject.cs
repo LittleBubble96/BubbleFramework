@@ -8,13 +8,13 @@ namespace BubbleFramework.Pool
     {
 
         //重新激活
-        protected virtual void OnPoolEnable()
+        public virtual void OnPoolEnable()
         {
             gameObject.SetActive(true);
         }
 
         //重新隐藏
-        protected virtual void OnPoolDisable()
+        public virtual void OnPoolDisable()
         {
             gameObject.SetActive(false);
         }
