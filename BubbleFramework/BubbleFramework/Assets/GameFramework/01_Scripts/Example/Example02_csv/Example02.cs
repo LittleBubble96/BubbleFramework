@@ -1,7 +1,9 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using BubbleFramework;
 using BubbleFramework.Pool;
+using GameFramework._01_Scripts._03_Setting;
 using UnityEngine;
 
 public class Example02 : MonoBehaviour
@@ -15,5 +17,10 @@ public class Example02 : MonoBehaviour
         {
             DDebug.Log(t.ToString());
         }
+
+       
+        
     }
+
+  
 }

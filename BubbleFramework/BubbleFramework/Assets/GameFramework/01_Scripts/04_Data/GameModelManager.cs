@@ -29,5 +29,23 @@ public class GameModelManager : BubbleFrameModel
     }
 
     #endregion
-   
+
+    #region 多语言
+
+    private List<LanguageData> getLanguageDatas;
+
+    public List<LanguageData> GetLanguageDatas
+    {
+        get
+        {
+            if (getLanguageDatas == null)
+            {
+                getLanguageDatas = DataModelTable<LanguageData>.ParseTable().ToList();
+            }
+            return getLanguageDatas;
+        }
+    }
+
+    #endregion
+
 }

@@ -100,6 +100,7 @@ namespace BubbleFramework.Bubble_UI
             }
             uiBase.transform.parent = parent;
             uiBase.SetContent(content);
+            uiBase.RefreshLanguage();
         }
 
         /// <summary>
@@ -169,6 +170,20 @@ namespace BubbleFramework.Bubble_UI
                 var uiName = tempNames.Pop();
                 _uiCurrentBases.Push(ui);
                 _uiCurrentNames.Push(uiName);
+            }
+        }
+
+        /// <summary>
+        /// 刷新UI
+        /// </summary>
+        public void RefreshUiLanguage()
+        {
+            foreach (var uiBase in _uiCurrentBases)
+            {
+                if (uiBase.IsShow)
+                {
+                    uiBase.RefreshLanguage();
+                }
             }
         }
 

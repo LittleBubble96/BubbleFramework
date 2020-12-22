@@ -1,6 +1,7 @@
 ﻿
 using System;
 using System.Collections.Generic;
+using System.Threading;
 using BubbleFramework;
 using UnityEngine;
 using Object = System.Object;
@@ -16,22 +17,21 @@ public static class BubbleFrameEntry
 {
     private static readonly BubbleLinkedList<BubbleFrameModel> GameModels = new BubbleLinkedList<BubbleFrameModel>();
 
-    //每一帧得时间
-    private static float _time;
+    private static List<ModelInstance> _entries = new List<ModelInstance>();
     
     /// <summary>
     /// 模块初始化
     /// </summary>
     public static void Awake()
     {
-        _time = Time.deltaTime;
+        //_entries = new List<ModelInstance>();
     }
 
-    public static void Update()
+    public static void Update(float dt)
     {
         foreach (var model in GameModels)
         {
-            model.DoUpdate(_time);
+            model.DoUpdate(dt);
         }
     }
 
@@ -56,7 +56,6 @@ public static class BubbleFrameEntry
                 return model as T;
             }
         }
-
         return CreateModel(type) as T;
     }
 
@@ -67,28 +66,59 @@ public static class BubbleFrameEntry
     /// <returns></returns>
     private static BubbleFrameModel CreateModel(Type type)
     {
-        BubbleFrameModel instance = (BubbleFrameModel) Activator.CreateInstance(type);
-        LinkedListNode<BubbleFrameModel> current = GameModels.First;
-        LinkedListNode<BubbleFrameModel> beforeNode = null;
-        
-        while (current!=null)
+        ModelInstance idleInstance = null;
+        foreach (var entry in _entries)
         {
-            if (current.Value.Priority > instance.Priority)
+            if (entry.Idle)
             {
-                beforeNode = current;
-                break;
+                idleInstance = entry;
             }
-            current = current.Next;
         }
 
-        if (beforeNode!=null)
+        if (idleInstance==null)
         {
-            GameModels.AddBefore(beforeNode, instance);
+            idleInstance = new ModelInstance();
         }
-        else
+        return idleInstance.CreateModelByType(type);
+    }
+    
+    
+    private class ModelInstance
+    {
+        public bool Idle;
+
+        public ModelInstance()
         {
-            GameModels.AddLast(instance);
+            Idle = false;
         }
-        return instance;
+
+        public BubbleFrameModel CreateModelByType(Type type)
+        {
+            BubbleFrameModel instance = (BubbleFrameModel) Activator.CreateInstance(type);
+            LinkedListNode<BubbleFrameModel> current = GameModels.First;
+            LinkedListNode<BubbleFrameModel> beforeNode = null;
+        
+            while (current!=null)
+            {
+                if (current.Value.Priority > instance.Priority)
+                {
+                    beforeNode = current;
+                    break;
+                }
+                current = current.Next;
+            }
+
+            if (beforeNode!=null)
+            {
+                GameModels.AddBefore(beforeNode, instance);
+            }
+            else
+            {
+                GameModels.AddLast(instance);
+            }
+
+            Idle = true;
+            return instance;
+        }
     }
 }

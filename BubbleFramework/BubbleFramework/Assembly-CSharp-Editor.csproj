@@ -60,6 +60,7 @@
   <ItemGroup>
      <Compile Include="Assets\GameFramework\01_Scripts\Editor\Bub_NameEditor.cs" />
      <Compile Include="Assets\GameFramework\01_Scripts\Editor\Editor_Log.cs" />
+     <Compile Include="Assets\GameFramework\01_Scripts\Editor\Editor_Tools.cs" />
  <Reference Include="UnityEditor.TestRunner">
  <HintPath>E:/GitHub/BubbleFramework/BubbleFramework/BubbleFramework/Library/ScriptAssemblies/UnityEditor.TestRunner.dll</HintPath>
  </Reference>

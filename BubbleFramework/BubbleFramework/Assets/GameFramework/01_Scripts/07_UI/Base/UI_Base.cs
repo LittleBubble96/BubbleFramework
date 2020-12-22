@@ -33,6 +33,8 @@ namespace BubbleFramework.Bubble_UI
             }
         }
 
+        public bool IsShow { get; set; }
+
         public UIType UiType { get; set; }
 
         public virtual void Init()
@@ -49,15 +51,22 @@ namespace BubbleFramework.Bubble_UI
 
         }
 
+        public virtual void RefreshLanguage()
+        {
+            
+        }
+
         //显示
         public virtual void Show()
         {
             gameObject.SetActive(true);
+            IsShow = true;
         }
         //隐藏
         public virtual void Hide()
         {
             gameObject.SetActive(false);
+            IsShow = false;
         }
         //冻结
         public virtual void Freeze()
@@ -69,6 +78,7 @@ namespace BubbleFramework.Bubble_UI
         {
             CanvasAlpha.blocksRaycasts = true;
             gameObject.SetActive(true);
+            IsShow = true;
         }
     }
 

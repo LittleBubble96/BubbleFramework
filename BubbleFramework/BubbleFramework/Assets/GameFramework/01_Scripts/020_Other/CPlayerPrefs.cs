@@ -7,6 +7,7 @@ using UnityEngine;
 public class CPlayerKeys
 {
     public const string EXAMPLE_KEY = "example_key";
+    public const string LANGUAGE_KEY = "language_key";
 }
 
 public class CPlayerPrefs
@@ -107,7 +108,7 @@ public class CPlayerPrefs
            throw new GameException(e.Message);
         }
     }
-
+    
     /// <summary>
     /// 是否存在键值
     /// </summary>

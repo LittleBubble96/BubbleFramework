@@ -12,7 +12,7 @@ namespace BubbleFramework
 
         void Update()
         {
-            BubbleFrameEntry.Update();
+            BubbleFrameEntry.Update(Time.deltaTime);
         }
     }
 }

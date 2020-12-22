@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using BubbleFramework;
 using BubbleFramework.Bubble_Event;
 using BubbleFramework.Bubble_UI;
+using GameFramework._01_Scripts._03_Setting;
 using UnityEngine;
 using UnityEngine.UI;
 using EventType = BubbleFramework.Bubble_Event.EventType;
@@ -30,12 +31,17 @@ public class Test_01 : UI_Base<Test_01Content>
     public override void SetContent(UI_BaseContent content)
     {
         base.SetContent(content);
-        _des.text = UiBaseContent.des;
+        //_des.text = UiBaseContent.des;
     }
 
     private void OnDestroy()
     {
         BubbleFrameEntry.GetModel<AppEventDispatcher>().RemoveEventListener<EventType>(EventName.EVENT_TEST01,OnChangeDes);
+    }
+
+    public override void RefreshLanguage()
+    {
+        _des.text = BubbleFrameEntry.GetModel<LanguageMgr>().GetText(0);
     }
 }
 

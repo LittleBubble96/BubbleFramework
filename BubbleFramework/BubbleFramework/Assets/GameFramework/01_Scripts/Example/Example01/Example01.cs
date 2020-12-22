@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using BubbleFramework.Bubble_Event;
+using GameFramework._01_Scripts._03_Setting;
 using UnityEngine;
 using EventType = BubbleFramework.Bubble_Event.EventType;
 
@@ -43,6 +44,16 @@ namespace BubbleFramework.Bubble_UI.Example01
             if (Input.GetKeyDown(KeyCode.F))
             {
                 BubbleFrameEntry.GetModel<AppEventDispatcher>().BroadcastListener(EventName.EVENT_TEST01,"广播第一次");
+            }
+            
+            if (Input.GetKeyDown(KeyCode.R))
+            {
+                DDebug.Log("语言为："+BubbleFrameEntry.GetModel<LanguageMgr>().Language.LanguageType + " 显示的文本：" + BubbleFrameEntry.GetModel<LanguageMgr>().GetText(0));
+            }
+
+            if (Input.GetKeyDown(KeyCode.T))
+            {
+                BubbleFrameEntry.GetModel<LanguageMgr>().SetLanguage(ELanguage.KO);
             }
         }
     }
