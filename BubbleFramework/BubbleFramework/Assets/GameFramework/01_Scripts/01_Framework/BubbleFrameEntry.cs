@@ -12,6 +12,7 @@ using Object = System.Object;
 /// 2.事件模块         AppEventDispatcher
 /// 3.CSV数据管理模块   GameModelManager
 /// 4.对象池模块        PoolManager
+/// 5.语言国际化        LanguageMgr
 /// </summary>
 public static class BubbleFrameEntry
 {
@@ -78,6 +79,7 @@ public static class BubbleFrameEntry
         if (idleInstance==null)
         {
             idleInstance = new ModelInstance();
+            _entries.Add(idleInstance);
         }
         return idleInstance.CreateModelByType(type);
     }
